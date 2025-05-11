@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agent2AgentDotNet", "Agent2AgentDotNet\Agent2AgentDotNet.csproj", "{4A59D373-8BC9-679A-6FBB-FEEA59FF8C67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A2ADotNet", "A2ADotNet\A2ADotNet.csproj", "{CAE1AA26-E6A2-0498-6C40-184C8129714C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A59D373-8BC9-679A-6FBB-FEEA59FF8C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A59D373-8BC9-679A-6FBB-FEEA59FF8C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A59D373-8BC9-679A-6FBB-FEEA59FF8C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A59D373-8BC9-679A-6FBB-FEEA59FF8C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAE1AA26-E6A2-0498-6C40-184C8129714C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE1AA26-E6A2-0498-6C40-184C8129714C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE1AA26-E6A2-0498-6C40-184C8129714C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE1AA26-E6A2-0498-6C40-184C8129714C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
