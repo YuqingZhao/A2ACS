@@ -5,12 +5,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageId>A2ADotNet</PackageId>
+	<PackageVersion>1.0.0.1</PackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docs\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
