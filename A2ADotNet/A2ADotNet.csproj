@@ -5,10 +5,14 @@
 	<PackageProjectUrl>https://github.com/YuqingZhao/A2ADotNet</PackageProjectUrl>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageId>A2ADotNet</PackageId>
-	<PackageVersion>1.0.0.3</PackageVersion>
+	<PackageVersion>1.0.0.4</PackageVersion>
+	<PackageReleaseNotes>README.md</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
 	<None Include="..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
