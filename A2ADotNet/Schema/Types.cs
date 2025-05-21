@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace A2ADotNet.Schema
 {
@@ -152,13 +152,21 @@ namespace A2ADotNet.Schema
     }
 
     // --- Parts ---
-    public interface IPart { }
-
-    public class TextPart : IPart
+    public class Part
     {
-        [JsonProperty("type")]
-        public string Type { get; set; } = "text";
+        [JsonProperty("kind")]
+        public PartKindEnum Kind { get; set; }
+    }
 
+    public enum PartKindEnum
+    {
+        Text,
+        File,
+        Data,
+    }
+
+    public class TextPart : Part
+    {
         [JsonProperty("text")]
         public string Text { get; set; }
 
@@ -166,11 +174,8 @@ namespace A2ADotNet.Schema
         public Dictionary<string, object> Metadata { get; set; }
     }
 
-    public class FilePart : IPart
+    public class FilePart : Part
     {
-        [JsonProperty("type")]
-        public string Type { get; set; } = "file";
-
         [JsonProperty("file")]
         public FileContent File { get; set; }
 
@@ -178,11 +183,8 @@ namespace A2ADotNet.Schema
         public Dictionary<string, object> Metadata { get; set; }
     }
 
-    public class DataPart : IPart
+    public class DataPart : Part
     {
-        [JsonProperty("type")]
-        public string Type { get; set; } = "data";
-
         [JsonProperty("data")]
         public Dictionary<string, object> Data { get; set; }
 
@@ -216,7 +218,7 @@ namespace A2ADotNet.Schema
         public string Description { get; set; }
 
         [JsonProperty("parts")]
-        public List<IPart> Parts { get; set; }
+        public List<Part> Parts { get; set; }
 
         [JsonProperty("index")]
         public int? Index { get; set; }
@@ -238,10 +240,16 @@ namespace A2ADotNet.Schema
         public string Role { get; set; } // "user" or "agent"
 
         [JsonProperty("parts")]
-        public List<IPart> Parts { get; set; }
+        public List<object> Parts { get; set; }
 
         [JsonProperty("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
+
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("messageId")]
+        public string MessageId { get; set; }
     }
 
     // --- TaskState Enum ---

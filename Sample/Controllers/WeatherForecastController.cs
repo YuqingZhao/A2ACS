@@ -16,8 +16,10 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("api")]
-        public void Post([FromBody]string request) 
+        public JSONRPCResponse Post([FromBody] JSONRPCRequest request)
         {
+            A2AServer svc = new A2AServer(AppServer.AgentCard, new AppServer());
+            return svc.ProcessJsonRpcRequest(request);
         }
     }
 }
