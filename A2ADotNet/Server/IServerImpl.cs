@@ -7,8 +7,6 @@ namespace A2ADotNet.Server
 {
     public interface IServerImpl
     {
-        void OnInit();
-
-        JSONRPCResponse OnProcessMessage(Message request);
+        Message OnProcessMessageSend(Message request);
     }
 }

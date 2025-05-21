@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -155,6 +156,7 @@ namespace A2ADotNet.Schema
     public class Part
     {
         [JsonProperty("kind")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public PartKindEnum Kind { get; set; }
     }
 
@@ -171,7 +173,7 @@ namespace A2ADotNet.Schema
         public string Text { get; set; }
 
         [JsonProperty("metadata")]
-        public Dictionary<string, object> Metadata { get; set; }
+        public Dictionary<string, object> Metadata { get; set; } = new Dictionary<string, object>();
     }
 
     public class FilePart : Part
@@ -180,7 +182,7 @@ namespace A2ADotNet.Schema
         public FileContent File { get; set; }
 
         [JsonProperty("metadata")]
-        public Dictionary<string, object> Metadata { get; set; }
+        public Dictionary<string, object> Metadata { get; set; } = new Dictionary<string, object>();
     }
 
     public class DataPart : Part
@@ -189,7 +191,7 @@ namespace A2ADotNet.Schema
         public Dictionary<string, object> Data { get; set; }
 
         [JsonProperty("metadata")]
-        public Dictionary<string, object> Metadata { get; set; }
+        public Dictionary<string, object> Metadata { get; set; } = new Dictionary<string, object>();
     }
 
     // --- FileContent ---
@@ -243,10 +245,10 @@ namespace A2ADotNet.Schema
         public List<object> Parts { get; set; }
 
         [JsonProperty("metadata")]
-        public Dictionary<string, object> Metadata { get; set; }
+        public Dictionary<string, object> Metadata { get; set; } = new Dictionary<string, object>();
 
         [JsonProperty("kind")]
-        public string Kind { get; set; }
+        public string Kind { get; set; } = "message";
 
         [JsonProperty("messageId")]
         public string MessageId { get; set; }
@@ -306,7 +308,7 @@ namespace A2ADotNet.Schema
         public string JsonRpc { get; set; } = "2.0";
 
         [JsonProperty("id")]
-        public object Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class JSONRPCRequest : JSONRPCMessage
@@ -321,7 +323,7 @@ namespace A2ADotNet.Schema
     public class JSONRPCResponse : JSONRPCMessage
     {
         [JsonProperty("result")]
-        public Dictionary<string, object> Result { get; set; }
+        public object Result { get; set; }
 
         [JsonProperty("error")]
         public JSONRPCError Error { get; set; }
@@ -440,6 +442,21 @@ namespace A2ADotNet.Schema
 
         [JsonProperty("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
+    }
+
+    public class MessageSendConfiguration
+    {
+        [JsonProperty("acceptedOutputModes")]
+        public string[] AcceptedOutputModes { get; set; }
+
+        [JsonProperty("historyLength")]
+        public int? HistoryLength { get; set; }
+
+        [JsonProperty("pushNotificationConfig")]
+        public PushNotificationConfig PushNotificationConfig { get; set; }
+
+        [JsonProperty("blocking")]
+        public bool? Blocking { get; set; }
     }
 
     // --- TaskSendParams ---

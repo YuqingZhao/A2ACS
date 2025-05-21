@@ -32,14 +32,9 @@ namespace WeatherForecastApp
             Skills = new List<SkillInfo>()
         };
 
-        public void OnInit()
+        public Message OnProcessMessageSend(Message request)
         {
-            throw new NotImplementedException();
-        }
-
-        public JSONRPCResponse OnProcessMessage(Message request)
-        {
-            return new JSONRPCResponse();
+            return new Message() { Parts = new List<object> { new TextPart() { Kind = PartKindEnum.Text, Text = "It's sunny day" } } };
         }
     }
 }

@@ -12,7 +12,7 @@ namespace A2ADotNet.Server
 
         private readonly AgentCard _agentCard;
 
-        private class InnerMessage
+        private class PartsInMessage
         {
             [JsonProperty("parts")]
             public List<Part> Parts { get; set; }
@@ -33,11 +33,6 @@ namespace A2ADotNet.Server
             _server = impl;
         }
 
-        public void OnInit()
-        {
-            _server.OnInit();
-        }
-
         public AgentCard GetAgentCard()
         {
             return DataCopier.Copy<AgentCard>(_agentCard);
@@ -45,27 +40,54 @@ namespace A2ADotNet.Server
 
         public JSONRPCResponse ProcessJsonRpcRequest(JSONRPCRequest request)
         {
-            var text = System.Text.Json.JsonSerializer.Serialize(request.Params["message"]);
-            var innerObj = JsonConvert.DeserializeObject<InnerMessage>(text);
-            var obj = JsonConvert.DeserializeObject<Message>(text);
-            for (var i = 0; i < innerObj.Parts.Count; i++)
+            switch (request.Method)
             {
-                switch (innerObj.Parts[i].Kind)
-                {
-                    case PartKindEnum.Text:
-                        obj.Parts[i] = JsonConvert.DeserializeObject<TextPart>(JsonConvert.SerializeObject(obj.Parts[i]));
-                        break;
-                    case PartKindEnum.File:
-                        obj.Parts[i] = JsonConvert.DeserializeObject<FilePart>(JsonConvert.SerializeObject(obj.Parts[i]));
-                        break;
-                    case PartKindEnum.Data:
-                        obj.Parts[i] = JsonConvert.DeserializeObject<DataPart>(JsonConvert.SerializeObject(obj.Parts[i]));
-                        break;
-                    default:
-                        throw new Exception($"Unknown kind");
-                }
+                case "message/send":
+                    var msgText = JsonConvert.SerializeObject(request.Params["message"]);
+                    MessageSendConfiguration config = null;
+                    if (request.Params.ContainsKey("configuration"))
+                    {
+                        var configText = JsonConvert.SerializeObject(request.Params["configuration"]);
+                        config = JsonConvert.DeserializeObject<MessageSendConfiguration>(configText);
+                    }
+                    var partsObj = JsonConvert.DeserializeObject<PartsInMessage>(msgText);
+                    var msgObj = JsonConvert.DeserializeObject<Message>(msgText);
+                    for (var i = 0; i < partsObj.Parts.Count; i++)
+                    {
+                        switch (partsObj.Parts[i].Kind)
+                        {
+                            case PartKindEnum.Text:
+                                msgObj.Parts[i] = JsonConvert.DeserializeObject<TextPart>(JsonConvert.SerializeObject(msgObj.Parts[i]));
+                                break;
+                            case PartKindEnum.File:
+                                msgObj.Parts[i] = JsonConvert.DeserializeObject<FilePart>(JsonConvert.SerializeObject(msgObj.Parts[i]));
+                                break;
+                            case PartKindEnum.Data:
+                                msgObj.Parts[i] = JsonConvert.DeserializeObject<DataPart>(JsonConvert.SerializeObject(msgObj.Parts[i]));
+                                break;
+                            default:
+                                throw new Exception($"Unknown kind");
+                        }
+                    }
+                    return GetMessageJSONRPCResponse(request.Id, msgObj, _server.OnProcessMessageSend(msgObj));
+                default:
+                    throw new Exception($"Unknown method {request.Method}");
             }
-            return _server.OnProcessMessage(obj);
+        }
+
+        private JSONRPCResponse GetMessageJSONRPCResponse(string id, Message request, Message msg)
+        {
+            var msgObj = JsonConvert.DeserializeObject<Message>(JsonConvert.SerializeObject(msg));
+            msgObj.Metadata = request.Metadata;
+            msgObj.MessageId = request.MessageId;
+            msgObj.Role = request.Role;
+            var ret = new JSONRPCResponse()
+            {
+                Id = id,
+                JsonRpc = "2.0",
+                Result = msgObj,
+            };
+            return ret;
         }
     }
 }
